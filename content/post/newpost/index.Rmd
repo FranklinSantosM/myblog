@@ -30,6 +30,8 @@ projects: []
 ---
 Somos una compania dedicada a la investigación cientifica
 
+Ahora nuestra página ya esta publicada
+
 ```{r}
 plot(1:10)
 ```
