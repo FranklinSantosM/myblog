@@ -1,6 +1,6 @@
 ---
 # Display name
-name: Nelson Bighetti
+name: Franklin Santos
 
 # Username (this should match the folder name)
 authors:
@@ -10,32 +10,32 @@ authors:
 superuser: true
 
 # Role/position
-role: Professor of Artificial Intelligence
+role: Técnico en Investigación
 
 # Organizations/Affiliations
 organizations:
-- name: Stanford University
+- name: Instituto Nacional de Innovación Agropecuaria y Forestal (INIAF)
   url: ""
 
 # Short bio (displayed in user profile at end of posts)
-bio: My research interests include distributed robotics, mobile computing and programmable matter.
+bio: My research interests include plant and animal breeding and data science. 
 
 interests:
-- Artificial Intelligence
-- Computational Linguistics
-- Information Retrieval
+- Plant Breeding
+- Data Science
+- Animal Breeding and Genetics
 
 education:
   courses:
-  - course: PhD in Artificial Intelligence
-    institution: Stanford University
-    year: 2012
-  - course: MEng in Artificial Intelligence
-    institution: Massachusetts Institute of Technology
-    year: 2009
-  - course: BSc in Artificial Intelligence
-    institution: Massachusetts Institute of Technology
-    year: 2008
+  - course: Data Science Specialization
+    institution: Johns Hopkins University
+    year: 2020
+  - course: Dipl in Higher Education
+    institution: El Alto Public University
+    year: 2020
+  - course: BSc in Agricultural Science
+    institution: El Alto Public University
+    year: 2015
 
 # Social/Academic Networking
 # For available icons, see: https://sourcethemes.com/academic/docs/page-builder/#icons
@@ -61,7 +61,7 @@ social:
 #   link: files/cv.pdf
 
 # Enter email to display Gravatar (if Gravatar enabled in Config)
-email: ""
+email: "ssantoss19@hotmail.com"
 
 # Organizational groups that you belong to (for People widget)
 #   Set this to `[]` or comment out if you are not using People widget.
@@ -70,6 +70,4 @@ user_groups:
 - Visitors
 ---
 
-Nelson Bighetti is a professor of artificial intelligence at the Stanford AI Lab. His research interests include distributed robotics, mobile computing and programmable matter. He leads the Robotic Neurobiology group, which develops self-reconfiguring robots, systems of self-organizing robots, and mobile sensor networks.
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed neque elit, tristique placerat feugiat ac, facilisis vitae arcu. Proin eget egestas augue. Praesent ut sem nec arcu pellentesque aliquet. Duis dapibus diam vel metus tempus vulputate.
+Franklin Santos was Research Technician in Livestock and Forages at the National Institute for Agricultural and Forestry Innovation (INIAF). His research interests include plant and animal breeding and data science. He directs a group of researchers and is a graduate thesis advisor for the Agronomic Engineering Career at the Public University of El Alto.
