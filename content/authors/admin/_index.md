@@ -10,7 +10,7 @@ authors:
 superuser: true
 
 # Role/position
-role: Técnico en Investigación
+role: Research Technician
 
 # Organizations/Affiliations
 organizations:
