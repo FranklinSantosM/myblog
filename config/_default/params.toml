@@ -267,5 +267,5 @@ plugins_js  = []
 ## Marketing
 ############################
 [marketing]
-  google_analytics = ""
+  google_analytics = "G-YH8QLLYTYE"
   google_tag_manager = ""
