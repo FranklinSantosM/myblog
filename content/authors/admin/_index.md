@@ -27,14 +27,17 @@ interests:
 
 education:
   courses:
+  - course: Animal Breeding and Genetics
+    institution: Wageningen University & Research
+    year: 2020
   - course: Data Science Specialization
     institution: Johns Hopkins University
     year: 2020
-  - course: Dipl in Higher Education
-    institution: El Alto Public University
+  - course: Diplomado en Educación Superior
+    institution: Universidad Pública de El Alto
     year: 2020
-  - course: BSc in Agricultural Science
-    institution: El Alto Public University
+  - course: Ing. Agrónomo
+    institution: Universidad Pública de El Alto
     year: 2015
 
 # Social/Academic Networking
