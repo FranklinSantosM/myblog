@@ -1,0 +1,165 @@
+---
+output: hugodown::md_document
+# Documentation: https://sourcethemes.com/academic/docs/managing-content/
+
+title: "Ordenar datos con el paquete Tidyverse"
+subtitle: ""
+summary: "Es un ejemplo de caso extraido del libro R4DS"
+authors: [Franklin Santos]
+tags: [RStudio, Tidyverse, R4DS]
+categories: [R]
+date: 2020-10-31
+lastmod: 2020-10-31
+featured: false
+draft: false
+
+# Featured image
+# To use, add an image named `featured.jpg/png` to your page's folder.
+# Focal points: Smart, Center, TopLeft, Top, TopRight, Left, Right, BottomLeft, Bottom, BottomRight.
+image:
+  caption: "featured.png"
+  focal_point: ""
+  preview_only: false
+
+# Projects (optional).
+#   Associate this post with one or more of your projects.
+#   Simply enter your project's folder or file name without extension.
+#   E.g. `projects = ["internal-project"]` references `content/project/deep-learning/index.md`.
+#   Otherwise, set `projects = []`.
+projects: []
+---
+
+## Introducción
+La ordenación de datos es una de las tareas mas importantes despues de concluir la investigación. En las ciencias agrícolas, generalmente la investigación concluye con la evaluación de la cosecha del cultivo. Generalmente nuestros datos pueden estar organizados en un libro de campo; sin embargo, en otras áreas no es así.
+
+En este blog replicaré un ejemplo de ordenación de datos con el paquete `Tidyverse` del libro R4DS. El dataset `datos::oms` contiene datos de tuberculosis (TB) detallados por año, país, edad, sexo y método de diagnóstico. Los datos provienen del Informe de Tuberculosis de la Organización Mundial de la Salud 2014, disponible en <http://www.who.int/tb/country/data/download/en/>.
+
+## Procedimiento de ordenación
+### Cargar el paquete `tidyverse`
+El primer paso es instalar el paquete `tidyverse` del CRAN de R. Posterior a esto es cargar el paquete en nuestra consola de R. 
+
+```{r}
+library(tidyverse)
+#En el paquete datos se encuentra la base de datos para este ejemplo
+library(datos)
+```
+
+A continuación observación el estado de los datos de `oms`.
+
+```{r}
+oms
+```
+En la salida se observa un ejemplo muy típico de una base de datos de la vida real. Contiene columnas redundantes, códigos extraños de variables y muchos valores faltantes. Practicamente, la base de datos `oms` está desordenado, por tanto, se necesita ordenarlo de manera sencilla con tidyverse.
+
+### Pasos de ordenación
+Necesitamos agrupar todas las columnas desde `nuevos_fpp_h014 hasta recaidas_m65`. No sabemos aún qué representa esto, por lo que le daremos el nombre genérico de `"clave"`. Sabemos que las celdas representan la cuenta de casos, por lo que usaremos la variable `casos`.
+
+Existen múltiples valores faltantes en la representación actual, por lo que de momento usaremos `na.rm` para centrarnos en los valores que están presentes.
+
+```{r}
+oms1 <- oms %>%
+  pivot_longer(
+    cols = nuevos_fpp_h014:nuevosrecaida_m65, 
+    names_to = "clave", 
+    values_to = "casos", 
+    values_drop_na = TRUE
+  )
+oms1
+```
+Para visualizar el conteo de valores en la nueva columna `clave`:
+
+```{r}
+oms1 %>%
+  count(clave)
+```
+Para entender el significado de cada variable, se dispone de un diccionario de datos a mano. Este dice lo siguiente:
+
+1. Lo que aparece antes del primer `_` en las columnas indica si la columna contiene casos nuevos o antiguos de tuberculosis. En este dataset, cada columna contiene nuevos casos.
+
+2. Lo que aparece luego de indicar si se refiere casos nuevos o antiguos es el tipo de tuberculosis:
+
+* `recaida` se refiere a casos reincidentes
+* `ep` se refiere a tuberculosis extra pulmonar
+* `fpn` se refiere a casos de tuberculosis pulmonar que no se pueden detectar mediante examen de frotis pulmonar (frotis pulmonar negativo)
+* `fpp` se refiere a casos de tuberculosis pulmonar que se pueden detectar mediante examen de frotis pulmonar (frotis pulmonar positivo)
+
+3. La letra que aparece después del último `_` se refiere al sexo de los pacientes. El conjunto de datos agrupa en hombres (`h`) y mujeres (`m`).
+
+4. Los números finales se refieren al grupo etareo que se ha organizado en siete categorías:
+
+* `014` = `0 - 14` años de edad
+* `1524` = `15 – 24` años de edad
+* `2534` = `25 – 34` años de edad
+* `3544` = `35 – 44` años de edad
+* `4554` = `45 – 54` años de edad
+* `5564` = `55 – 64` años de edad
+* `65` = `65` o más años de edad
+
+Necesitamos hacer un pequeño cambio al formato de los nombres de las columnas: desafortunadamente lo nombres de las columnas son ligeramente inconsistentes debido a que en lugar de `nuevos_recaida` tenemos `nuevosrecaida` (es difícil darse cuenta de esto en esta parte, pero si no lo arreglas habrá errores en los pasos siguientes). Para esto, la idea básica es bastante simple: reemplazar los caracteres `“nuevosrecaida”` por `“nuevos_recaida”`. Esto genera nombres de variables consistentes.
+
+```{r}
+oms2 <- oms1 %>%
+  mutate(clave = stringr::str_replace(clave, "nuevosrecaida", "nuevos_recaida"))
+oms2
+
+```
+Una vez reemplazado, nos facilita separar los valores en cada código aplicando `separate()` dos veces. La primera aplicación dividirá los códigos en cada `_`.
+
+```{r}
+oms3 <- oms2 %>%
+  separate(clave, c("nuevos", "tipo", "sexo_edad"), sep = "_")
+oms3
+```
+A continuación podemos eliminar la columna `nuevos`, ya que es constante en este dataset. Además eliminaremos `iso2` e `iso3` ya que son redundantes.
+
+```{r}
+oms3 %>%
+  count(nuevos)
+
+oms4 <- oms3 %>%
+  select(-nuevos, -iso2, -iso3)
+```
+
+Luego separamos `sexo_edad` en `sexo` y `edad` dividiendo luego del primer carácter:
+```{r}
+oms5 <- oms4 %>%
+  separate(sexo_edad, c("sexo", "edad"), sep = 1)
+oms5
+
+```
+
+¡Ahora la base de datos `oms` está ordenado!
+
+## Resumen
+En la anterior sección se hizo el procedimiento de ordenación paso a paso, asignando los resultados intermedios a nuevas variables. Esta no es la forma típica de trabajo. 
+En realidad, los códigos debería ser de manera incremental usando `pipes ("%>%)`:
+
+```{r}
+oms %>%
+  pivot_longer(
+    cols = nuevos_fpp_h014:nuevosrecaida_m65,
+    names_to = "clave", 
+    values_to = "valor", 
+    values_drop_na = TRUE) %>%
+  mutate(clave = stringr::str_replace(clave, "nuevosrecaida", "nuevos_recaida")) %>%
+  separate(clave, c("nuevos", "tipo", "sexo_edad")) %>%
+  select(-nuevos, -iso2, -iso3) %>%
+  separate(sexo_edad, c("sexo", "edad"), sep = 1)
+```
+
+## Conclusión
+Es un ejemplo muy bueno para practicar y usar las diferentes funciones de `tidyverse` en la ordenación de datos.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
