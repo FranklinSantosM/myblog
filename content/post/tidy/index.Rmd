@@ -74,18 +74,18 @@ oms1 %>%
 ```
 Para entender el significado de cada variable, se dispone de un diccionario de datos a mano. Este dice lo siguiente:
 
-1. Lo que aparece antes del primer `_` en las columnas indica si la columna contiene casos nuevos o antiguos de tuberculosis. En este dataset, cada columna contiene nuevos casos.
+(@)    Lo que aparece antes del primer `_` en las columnas indica si la columna contiene casos nuevos o antiguos de tuberculosis. En este dataset, cada columna contiene nuevos casos.
 
-2. Lo que aparece luego de indicar si se refiere casos nuevos o antiguos es el tipo de tuberculosis:
+(@)    Lo que aparece luego de indicar si se refiere casos nuevos o antiguos es el tipo de tuberculosis:
 
-* `recaida` se refiere a casos reincidentes
-* `ep` se refiere a tuberculosis extra pulmonar
-* `fpn` se refiere a casos de tuberculosis pulmonar que no se pueden detectar mediante examen de frotis pulmonar (frotis pulmonar negativo)
-* `fpp` se refiere a casos de tuberculosis pulmonar que se pueden detectar mediante examen de frotis pulmonar (frotis pulmonar positivo)
+  - `recaida` se refiere a casos reincidentes
+  - `ep` se refiere a tuberculosis extra pulmonar
+  - `fpn` se refiere a casos de tuberculosis pulmonar que no se pueden detectar mediante examen de frotis pulmonar (frotis pulmonar negativo)
+  - `fpp` se refiere a casos de tuberculosis pulmonar que se pueden detectar mediante examen de frotis pulmonar (frotis pulmonar positivo)
 
-3. La letra que aparece después del último `_` se refiere al sexo de los pacientes. El conjunto de datos agrupa en hombres (`h`) y mujeres (`m`).
+(@)    La letra que aparece después del último `_` se refiere al sexo de los pacientes. El conjunto de datos agrupa en hombres (`h`) y mujeres (`m`).
 
-4. Los números finales se refieren al grupo etareo que se ha organizado en siete categorías:
+(@)    Los números finales se refieren al grupo etareo que se ha organizado en siete categorías:
 
 * `014` = `0 - 14` años de edad
 * `1524` = `15 – 24` años de edad
