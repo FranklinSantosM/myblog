@@ -27,7 +27,7 @@ image:
 #   E.g. `projects = ["internal-project"]` references `content/project/deep-learning/index.md`.
 #   Otherwise, set `projects = []`.
 projects: []
-rmd_hash: 5bf7de55dcb1e25a
+rmd_hash: 16febada910250e1
 
 ---
 
@@ -40,7 +40,7 @@ Aquí, describimos el análisis de correspondencia simple, que se utiliza para a
 
 Al analizar una tabla de contingencia bidireccional, una pregunta típica es si ciertos elementos de fila están asociados con algunos elementos de elementos de columna. El análisis de correspondencia es un enfoque geométrico para visualizar las filas y columnas de una tabla de contingencia bidireccional como puntos en un espacio de baja dimensión, de modo que las posiciones de los puntos de fila y columna sean consistentes con sus asociaciones en la tabla. El objetivo es tener una visión global de los datos que sea útil para la interpretación.
 
-En el capítulo actual, mostraremos cómo calcular e interpretar el análisis de correspondencia usando dos `paquetes R`: i) `FactoMineR` para el análisis y ii) `factoextra` para la visualización de datos. Además, mostraremos cómo revelar las variables más importantes que explican las variaciones en un conjunto de datos. \#\#/Continuamos explicando cómo aplicar el análisis de correspondencia utilizando filas y columnas complementarias. Esto es importante si desea realizar predicciones con CA. Las últimas secciones de esta guía describen también cómo filtrar el resultado de CA para mantener solo las variables más contribuyentes. Finalmente, veremos cómo lidiar con los valores atípicos./\#\#
+En el capítulo actual, mostraremos cómo calcular e interpretar el análisis de correspondencia usando dos `paquetes R`: i) `FactoMineR` para el análisis y ii) `factoextra` para la visualización de datos. Además, mostraremos cómo revelar las variables más importantes que explican las variaciones en un conjunto de datos.
 
 Procedimiento computacional en R
 --------------------------------
@@ -70,7 +70,14 @@ Los datos deben ser una tabla de contingencia (resultados de tablas cruzadas). U
 
 </div>
 
-Los datos son una tabla de contingencia que contiene 13 tareas del hogar y su reparto en la pareja: \* las filas son las diferentes tareas \* Los valores son las frecuencias de las tareas realizadas: + solo por la esposa "wife only" + alternativamente "Alternating" + solo por el marido "husband only" + o conjuntamente \"jointly
+Los datos son una tabla de contingencia que contiene 13 tareas del hogar y su reparto en la pareja:
+
+-   las filas son las diferentes tareas
+-   Los valores son las frecuencias de las tareas realizadas:
+    -   solo por la esposa "wife only"
+    -   alternativamente "Alternating"
+    -   solo por el marido "husband only"
+    -   o conjuntamente \"jointly
 
 Los datos se ilustran en la siguiente salidad:
 
@@ -96,7 +103,11 @@ Los datos se ilustran en la siguiente salidad:
 
 ### Gráfica de tablas de contingencia y prueba de chi-cuadrado
 
-La tabla de contingencia anterior no es muy grande. Por lo tanto, es fácil inspeccionar e interpretar visualmente los perfiles de filas y columnas: \* Es evidente que las tareas de la casa (lavandería, comida principal y cena) las realiza con más frecuencia la "esposa". \* Las reparaciones y la conducción las realiza predominantemente el marido. \* Los días festivos se asocian con frecuencia con la columna "conjuntamente"
+La tabla de contingencia anterior no es muy grande. Por lo tanto, es fácil inspeccionar e interpretar visualmente los perfiles de filas y columnas:
+
+-   Es evidente que las tareas de la casa (lavandería, comida principal y cena) las realiza con más frecuencia la "esposa".
+-   Las reparaciones y la conducción las realiza predominantemente el marido.
+-   Los días festivos se asocian con frecuencia con la columna "conjuntamente"
 
 El análisis de datos exploratorios y la visualización de tablas de contingencia se cubrieron en nuestro artículo anterior: [Prueba de independencia de chi-cuadrado](htpp:/) en R. Brevemente, la tabla de contingencia se puede visualizar utilizando las funciones [`balloonplot()`](https://rdrr.io/pkg/gplots/man/balloonplot.html) \[paquete gplots\] y [`mosaicplot()`](https://rdrr.io/r/graphics/mosaicplot.html) \[paquete garphics\]:
 
@@ -201,7 +212,13 @@ La salida de la función CA () es una lista que incluye:
 Visualización e interpretación
 ------------------------------
 
-Usaremos las siguientes funciones \[in *factoextra*\] para ayudar en la interpretación y visualización del análisis de correspondencia: \* [`get_eigenvalue(res.ca)`](https://rdrr.io/pkg/factoextra/man/eigenvalue.html): Extraiga los autovalores/varianzas retenidos por cada dimensión (eje) \* [`fviz_eig(res.ca)`](https://rdrr.io/pkg/factoextra/man/eigenvalue.html): Visualiza los valores propios \* [`get_ca_row(res.ca)`](https://rdrr.io/pkg/factoextra/man/get_ca.html), [`get_ca_col(res.ca)`](https://rdrr.io/pkg/factoextra/man/get_ca.html): Extrae los resultados para filas y columnas, respectivamente. \* [`fviz_ca_row(res.ca)`](https://rdrr.io/pkg/factoextra/man/fviz_ca.html), [`fviz_ca_col(res.ca)`](https://rdrr.io/pkg/factoextra/man/fviz_ca.html): Visualiza los resultados para filas y columnas, respectivamente. \* [`fviz_ca_biplot(res.ca)`](https://rdrr.io/pkg/factoextra/man/fviz_ca.html): Crea un biplot de filas y columnas.
+Usaremos las siguientes funciones \[in *factoextra*\] para ayudar en la interpretación y visualización del análisis de correspondencia:
+
+-   [`get_eigenvalue(res.ca)`](https://rdrr.io/pkg/factoextra/man/eigenvalue.html): Extraiga los autovalores/varianzas retenidos por cada dimensión (eje)
+-   [`fviz_eig(res.ca)`](https://rdrr.io/pkg/factoextra/man/eigenvalue.html): Visualiza los valores propios
+-   [`get_ca_row(res.ca)`](https://rdrr.io/pkg/factoextra/man/get_ca.html), [`get_ca_col(res.ca)`](https://rdrr.io/pkg/factoextra/man/get_ca.html): Extrae los resultados para filas y columnas, respectivamente.
+-   [`fviz_ca_row(res.ca)`](https://rdrr.io/pkg/factoextra/man/fviz_ca.html), [`fviz_ca_col(res.ca)`](https://rdrr.io/pkg/factoextra/man/fviz_ca.html): Visualiza los resultados para filas y columnas, respectivamente.
+-   [`fviz_ca_biplot(res.ca)`](https://rdrr.io/pkg/factoextra/man/fviz_ca.html): Crea un biplot de filas y columnas.
 
 En las siguientes secciones, ilustraremos cada una de estas funciones.
 
@@ -358,7 +375,12 @@ Como se mencionó anteriormente, el gráfico estándar del análisis de correspo
 
 Para hacer un *biplot asimétrico*, los puntos de las filas (o columnas) se trazan a partir de las coordenadas estándar (S) y los perfiles de las columnas (o las filas) se trazan a partir de las coordenadas principales (P) (M. Bendixen 2003).
 
-Para un eje dado, las coordenadas estándar y principal se relacionan de la siguiente manera: P = sqrt(valor propio) X S \* *P*: la coordenada principal de una fila (o una columna) en el eje \* *valor propio*: el valor propio del eje
+Para un eje dado, las coordenadas estándar y principal se relacionan de la siguiente manera:
+
+P = sqrt(valor propio) X S
+
+-   *P*: la coordenada principal de una fila (o una columna) en el eje
+-   *valor propio*: el valor propio del eje
 
 Dependiendo de la situación, se pueden configurar otros tipos de visualización utilizando el mapa de argumentos (Nenadic y Greenacre 2007) en la función [`fviz_ca_biplot()`](https://rdrr.io/pkg/factoextra/man/fviz_ca.html) \[in factoextra\].
 
