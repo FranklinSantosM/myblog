@@ -4,7 +4,7 @@ output: hugodown::md_document
 
 title: "Análisis de correspondencia con R"
 subtitle: ""
-summary: "Análisis para variables categóricas utilizanto la metodología de tablas cruzadas con la prueba de chi-cuadrado. Es una recopilación del libro Multivariate Analysis II: Practical Guide To Principal Component Methods in R"
+summary: "Análisis para variables categóricas utilizando la metodología de tablas cruzadas con la prueba de chi-cuadrado. Este análisis es una recopilación del libro Multivariate Analysis II: Practical Guide To Principal Component Methods in R"
 authors: [Franklin Santos]
 tags: [Chi-cuadrado, Biplot, Componentes principales]
 categories: [R, Data Science, Guía práctica]
