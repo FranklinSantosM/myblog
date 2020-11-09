@@ -27,7 +27,7 @@ image:
 #   E.g. `projects = ["internal-project"]` references `content/project/deep-learning/index.md`.
 #   Otherwise, set `projects = []`.
 projects: []
-rmd_hash: 1888558bc9487343
+rmd_hash: 977f4e1f4c248011
 
 ---
 
@@ -79,7 +79,7 @@ Los datos son una tabla de contingencia que contiene 13 tareas del hogar y su re
     -   solo por el marido "husband only"
     -   o conjuntamente \"jointly
 
-Los datos se ilustran en la siguiente salidad:
+Los datos se ilustran en la siguiente salida:
 
 <div class="highlight">
 
@@ -109,7 +109,7 @@ La tabla de contingencia anterior no es muy grande. Por lo tanto, es fácil insp
 -   Las reparaciones y la conducción las realiza predominantemente el marido.
 -   Los días festivos se asocian con frecuencia con la columna "conjuntamente"
 
-El análisis de datos exploratorios y la visualización de tablas de contingencia se cubrieron en nuestro artículo anterior: [Prueba de independencia de chi-cuadrado](htpp:/) en R. Brevemente, la tabla de contingencia se puede visualizar utilizando las funciones [`balloonplot()`](https://rdrr.io/pkg/gplots/man/balloonplot.html) \[paquete gplots\] y [`mosaicplot()`](https://rdrr.io/r/graphics/mosaicplot.html) \[paquete garphics\]:
+El análisis de datos exploratorios y la visualización de tablas de contingencia se cubrieron en nuestro artículo anterior: [Prueba de independencia de chi-cuadrado](htpp:/) en R. Brevemente, la tabla de contingencia se puede visualizar utilizando las funciones [`balloonplot()`](https://rdrr.io/pkg/gplots/man/balloonplot.html) \[paquete gplots\] y [`mosaicplot()`](https://rdrr.io/r/graphics/mosaicplot.html) \[paquete graphics\]:
 
 <div class="highlight">
 
@@ -179,7 +179,7 @@ Para calcular el análisis de correspondencia, escriba esto:
 
 </div>
 
-La salida de la función CA () es una lista que incluye:
+La salida de la función [`CA()`](https://rdrr.io/pkg/FactoMineR/man/CA.html) es una lista que incluye:
 
 <div class="highlight">
 

@@ -63,7 +63,7 @@ Los datos son una tabla de contingencia que contiene 13 tareas del hogar y su re
   + o conjuntamente "jointly
   
   
-Los datos se ilustran en la siguiente salidad:
+Los datos se ilustran en la siguiente salida:
 ```{r, echo=FALSE}
 housetasks
 ```
@@ -75,7 +75,7 @@ La tabla de contingencia anterior no es muy grande. Por lo tanto, es fácil insp
 * Las reparaciones y la conducción las realiza predominantemente el marido.
 * Los días festivos se asocian con frecuencia con la columna "conjuntamente"
 
-El análisis de datos exploratorios y la visualización de tablas de contingencia se cubrieron en nuestro artículo anterior: [Prueba de independencia de chi-cuadrado](htpp:/) en R. Brevemente, la tabla de contingencia se puede visualizar utilizando las funciones `balloonplot()` [paquete gplots] y `mosaicplot()` [paquete garphics]:
+El análisis de datos exploratorios y la visualización de tablas de contingencia se cubrieron en nuestro artículo anterior: [Prueba de independencia de chi-cuadrado](htpp:/) en R. Brevemente, la tabla de contingencia se puede visualizar utilizando las funciones `balloonplot()` [paquete gplots] y `mosaicplot()` [paquete graphics]:
 
 ```{r}
 library(gplots)
@@ -114,7 +114,7 @@ library("FactoMineR")
 res.ca <- CA(housetasks, graph = FALSE)
 ```
 
-La salida de la función CA () es una lista que incluye:
+La salida de la función `CA()` es una lista que incluye:
 
 ```{r}
 print(res.ca)
