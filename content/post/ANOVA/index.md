@@ -27,7 +27,7 @@ image:
 #   E.g. `projects = ["internal-project"]` references `content/project/deep-learning/index.md`.
 #   Otherwise, set `projects = []`.
 projects: []
-rmd_hash: 12b32e72281746a5
+rmd_hash: d89767948bf9f607
 
 ---
 
@@ -39,15 +39,15 @@ El análisis de varianza es una prueba estadística para determinar si dos o má
 En el resto del post lo comentaremos desde un punto de vista más práctico y en particular abordaremos los siguientes puntos:
 
 -   el objetivo del análisis de varianza y cuándo debe usarse
--   cómo realizar el ANOVA en R
--   cómo interpretar los resultados del ANOVA
+-   cómo realizar el ANVA en R
+-   cómo interpretar los resultados del ANVA
 -   comprender la noción de prueba de promedios e interpretar los resultados
--   cómo visualizar los resultados de ANOVA y pruebas de promedio
+-   cómo visualizar los resultados de ANVA y pruebas de promedio
 
 Datos
 -----
 
-El dato que se utilizará es `iris`, que se encuentra en la base de datos de R. Estos datos cuenta con tres especies (`setosa`, `versicolor` y `virginica`) y cuatro variables (`Sepal.Length`, `Sepal.Width`, `Petal.Length` y `Petal.Width`) cuantitativas
+El dato que se utilizará es `iris`, que se encuentra en la base de datos de R. Estos datos como tratamientos tienen tres especies (`setosa`, `versicolor` y `virginica`) y cuatro variables (`Sepal.Length`, `Sepal.Width`, `Petal.Length` y `Petal.Width`) cuantitativas
 
 <div class="highlight">
 
@@ -89,16 +89,20 @@ Salida de datos a utilizar:
 <span class='c'>#&gt; <span style='color: #555555;'> 9</span><span>          4.4         2.9          1.4         0.2 setosa </span></span>
 <span class='c'>#&gt; <span style='color: #555555;'>10</span><span>          4.9         3.1          1.5         0.1 setosa </span></span>
 <span class='c'>#&gt; <span style='color: #555555;'># … with 140 more rows</span></span>
+</code></pre>
 
+</div>
 
-<span class='c'>#inspección de datos</span>
+<div class="highlight">
+
+<pre class='chroma'><code class='language-r' data-lang='r'><span class='c'>#inspección de datos</span>
 <span class='nf'>ggplot</span><span class='o'>(</span><span class='nv'>iris</span><span class='o'>)</span> <span class='o'>+</span>
   <span class='nf'>aes</span><span class='o'>(</span>x <span class='o'>=</span> <span class='nv'>Species</span>, y <span class='o'>=</span> <span class='nv'>Sepal.Width</span>, color <span class='o'>=</span> <span class='nv'>Species</span><span class='o'>)</span> <span class='o'>+</span>
   <span class='nf'>geom_jitter</span><span class='o'>(</span><span class='o'>)</span> <span class='o'>+</span>
   <span class='nf'>theme</span><span class='o'>(</span>legend.position <span class='o'>=</span> <span class='s'>"none"</span><span class='o'>)</span>
 
 </code></pre>
-<img src="figs/unnamed-chunk-2-1.png" width="700px" style="display: block; margin: auto;" />
+<img src="figs/unnamed-chunk-3-1.png" width="700px" style="display: block; margin: auto;" />
 
 </div>
 
@@ -171,7 +175,7 @@ Ahora podemos comprobar la normalidad visualmente:
 <span class='o'>)</span>
 
 </code></pre>
-<img src="figs/unnamed-chunk-4-1.png" width="700px" style="display: block; margin: auto;" />
+<img src="figs/unnamed-chunk-5-1.png" width="700px" style="display: block; margin: auto;" />
 
 </div>
 
@@ -200,7 +204,7 @@ Visualmente tenemos:
 <span class='o'>)</span>
 
 </code></pre>
-<img src="figs/unnamed-chunk-5-1.png" width="700px" style="display: block; margin: auto;" />
+<img src="figs/unnamed-chunk-6-1.png" width="700px" style="display: block; margin: auto;" />
 
 </div>
 
@@ -214,7 +218,7 @@ Visualmente tenemos:
 <span class='o'>)</span>
 
 </code></pre>
-<img src="figs/unnamed-chunk-6-1.png" width="700px" style="display: block; margin: auto;" />
+<img src="figs/unnamed-chunk-7-1.png" width="700px" style="display: block; margin: auto;" />
 
 </div>
 
@@ -395,7 +399,7 @@ En R, la prueba de Tukey HSD se realiza de la siguiente manera. Aquí es donde e
 <span class='c'>#&gt;                             Estimate Std. Error t value Pr(&gt;|t|)    </span>
 <span class='c'>#&gt; versicolor - setosa == 0    -0.65800    0.06794  -9.685  &lt; 1e-04 ***</span>
 <span class='c'>#&gt; virginica - setosa == 0     -0.45400    0.06794  -6.683  &lt; 1e-04 ***</span>
-<span class='c'>#&gt; virginica - versicolor == 0  0.20400    0.06794   3.003  0.00873 ** </span>
+<span class='c'>#&gt; virginica - versicolor == 0  0.20400    0.06794   3.003  0.00874 ** </span>
 <span class='c'>#&gt; ---</span>
 <span class='c'>#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
 <span class='c'>#&gt; (Adjusted p values reported -- single-step method)</span>
@@ -476,7 +480,7 @@ Si está interesado en incluir resultados de ANVA y pruebas de promedio directam
 <span class='o'>}</span>
 
 </code></pre>
-<img src="figs/unnamed-chunk-13-1.png" width="700px" style="display: block; margin: auto;" /><img src="figs/unnamed-chunk-13-2.png" width="700px" style="display: block; margin: auto;" /><img src="figs/unnamed-chunk-13-3.png" width="700px" style="display: block; margin: auto;" /><img src="figs/unnamed-chunk-13-4.png" width="700px" style="display: block; margin: auto;" />
+<img src="figs/unnamed-chunk-14-1.png" width="700px" style="display: block; margin: auto;" /><img src="figs/unnamed-chunk-14-2.png" width="700px" style="display: block; margin: auto;" /><img src="figs/unnamed-chunk-14-3.png" width="700px" style="display: block; margin: auto;" /><img src="figs/unnamed-chunk-14-4.png" width="700px" style="display: block; margin: auto;" />
 
 </div>
 

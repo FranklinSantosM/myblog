@@ -34,15 +34,15 @@ El análisis de varianza es una prueba estadística para determinar si dos o má
 En el resto del post lo comentaremos desde un punto de vista más práctico y en particular abordaremos los siguientes puntos:
 
 * el objetivo del análisis de varianza y cuándo debe usarse
-* cómo realizar el ANOVA en R 
-* cómo interpretar los resultados del ANOVA 
+* cómo realizar el ANVA en R 
+* cómo interpretar los resultados del ANVA 
 * comprender la noción de prueba de promedios e interpretar los resultados 
-* cómo visualizar los resultados de ANOVA y pruebas de promedio
+* cómo visualizar los resultados de ANVA y pruebas de promedio
 
 ## Datos
-El dato que se utilizará es `iris`, que se encuentra en la base de datos de R. Estos datos cuenta con tres especies (`setosa`, `versicolor` y `virginica`) y cuatro variables (`Sepal.Length`, `Sepal.Width`, `Petal.Length` y `Petal.Width`) cuantitativas
+El dato que se utilizará es `iris`, que se encuentra en la base de datos de R. Estos datos como tratamientos tienen tres especies (`setosa`, `versicolor` y `virginica`) y cuatro variables (`Sepal.Length`, `Sepal.Width`, `Petal.Length` y `Petal.Width`) cuantitativas
 
-```{r, warning=FALSE}
+```{r}
 #paquetes R a utilizar
 library(tidyverse)
 ```
@@ -52,7 +52,10 @@ Salida de datos a utilizar:
 ```{r}
 #datos
 tibble(iris)
+```
 
+
+```{r}
 #inspección de datos
 ggplot(iris) +
   aes(x = Species, y = Sepal.Width, color = Species) +
