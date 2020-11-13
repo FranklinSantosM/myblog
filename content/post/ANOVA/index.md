@@ -27,7 +27,7 @@ image:
 #   E.g. `projects = ["internal-project"]` references `content/project/deep-learning/index.md`.
 #   Otherwise, set `projects = []`.
 projects: []
-rmd_hash: d89767948bf9f607
+rmd_hash: 8fb338262478d6b3
 
 ---
 
@@ -64,9 +64,13 @@ El dato que se utilizará es `iris`, que se encuentra en la base de datos de R. 
 <span class='c'>#&gt; ── <span style='font-weight: bold;'>Conflicts</span><span> ────────────────────────────────────────── tidyverse_conflicts() ──</span></span>
 <span class='c'>#&gt; <span style='color: #BB0000;'>✖</span><span> </span><span style='color: #0000BB;'>dplyr</span><span>::</span><span style='color: #00BB00;'>filter()</span><span> masks </span><span style='color: #0000BB;'>stats</span><span>::filter()</span></span>
 <span class='c'>#&gt; <span style='color: #BB0000;'>✖</span><span> </span><span style='color: #0000BB;'>dplyr</span><span>::</span><span style='color: #00BB00;'>lag()</span><span>    masks </span><span style='color: #0000BB;'>stats</span><span>::lag()</span></span>
+
+<span class='kr'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='o'>(</span><span class='nv'>easyanova</span><span class='o'>)</span>
 </code></pre>
 
 </div>
+
+La librería de `easyanova` es un paquete para realizar análisis de experimentos agrícolas y animales. Las funciones de esta librería son fáciles de usar. Realiza análisis en varios diseños, con datos balanceados y no balanceados.
 
 Salida de datos a utilizar:
 
@@ -261,9 +265,9 @@ Análisis de varianza en R
 
 El ANVA puede ayudarnos a hacer inferencias sobre la población dada la muestra en cuestión y ayudarnos a responder la pregunta de investigación "¿Existe diferencia en ancho de sépalo para las 3 especies?".
 
-El ANVA en R se puede realizar de varias formas, de las cuales dos se presentan a continuación:
+El ANVA en R se puede realizar de varias formas, de las cuales tres se presentan a continuación:
 
-1.  Con la función [`oneway.test()`](https://rdrr.io/r/stats/oneway.test.html):
+a). Con la función [`oneway.test()`](https://rdrr.io/r/stats/oneway.test.html):
 
 <div class="highlight">
 
@@ -282,7 +286,7 @@ El ANVA en R se puede realizar de varias formas, de las cuales dos se presentan 
 
 </div>
 
-1.  Con las funciones de [`summary()`](https://rdrr.io/r/base/summary.html) y [`aov()`](https://rdrr.io/r/stats/aov.html):
+b). Con las funciones de [`summary()`](https://rdrr.io/r/base/summary.html) y [`aov()`](https://rdrr.io/r/stats/aov.html):
 
 <div class="highlight">
 
@@ -397,9 +401,9 @@ En R, la prueba de Tukey HSD se realiza de la siguiente manera. Aquí es donde e
 <span class='c'>#&gt; </span>
 <span class='c'>#&gt; Linear Hypotheses:</span>
 <span class='c'>#&gt;                             Estimate Std. Error t value Pr(&gt;|t|)    </span>
-<span class='c'>#&gt; versicolor - setosa == 0    -0.65800    0.06794  -9.685  &lt; 1e-04 ***</span>
-<span class='c'>#&gt; virginica - setosa == 0     -0.45400    0.06794  -6.683  &lt; 1e-04 ***</span>
-<span class='c'>#&gt; virginica - versicolor == 0  0.20400    0.06794   3.003  0.00874 ** </span>
+<span class='c'>#&gt; versicolor - setosa == 0    -0.65800    0.06794  -9.685  &lt; 0.001 ***</span>
+<span class='c'>#&gt; virginica - setosa == 0     -0.45400    0.06794  -6.683  &lt; 0.001 ***</span>
+<span class='c'>#&gt; virginica - versicolor == 0  0.20400    0.06794   3.003  0.00875 ** </span>
 <span class='c'>#&gt; ---</span>
 <span class='c'>#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
 <span class='c'>#&gt; (Adjusted p values reported -- single-step method)</span>
@@ -442,6 +446,101 @@ Con este código, es la columna `p adj` (también la última columna) la que int
 Visualización de ANVA y pruebas de promedio
 -------------------------------------------
 
+Para realizar de forma más fácil un análisis de varianza, se puede usar la librería `easyanova` para analizar diferentes diseños experimentales.
+
+### Análisis de varianza con `easyanova`
+
+`data1` es la base de datos que se usará con la librería `easyanova`.
+
+<div class="highlight">
+
+<pre class='chroma'><code class='language-r' data-lang='r'><span class='nf'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='o'>(</span><span class='s'>"data1"</span><span class='o'>)</span>
+<span class='nf'>tibble</span><span class='o'>(</span><span class='nv'>data1</span><span class='o'>)</span>
+
+<span class='c'>#&gt; <span style='color: #555555;'># A tibble: 15 x 2</span></span>
+<span class='c'>#&gt;    Diet   Gain</span>
+<span class='c'>#&gt;    <span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span></span>
+<span class='c'>#&gt; <span style='color: #555555;'> 1</span><span> d1      270</span></span>
+<span class='c'>#&gt; <span style='color: #555555;'> 2</span><span> d1      300</span></span>
+<span class='c'>#&gt; <span style='color: #555555;'> 3</span><span> d1      280</span></span>
+<span class='c'>#&gt; <span style='color: #555555;'> 4</span><span> d1      280</span></span>
+<span class='c'>#&gt; <span style='color: #555555;'> 5</span><span> d1      270</span></span>
+<span class='c'>#&gt; <span style='color: #555555;'> 6</span><span> d2      290</span></span>
+<span class='c'>#&gt; <span style='color: #555555;'> 7</span><span> d2      250</span></span>
+<span class='c'>#&gt; <span style='color: #555555;'> 8</span><span> d2      280</span></span>
+<span class='c'>#&gt; <span style='color: #555555;'> 9</span><span> d2      290</span></span>
+<span class='c'>#&gt; <span style='color: #555555;'>10</span><span> d2      280</span></span>
+<span class='c'>#&gt; <span style='color: #555555;'>11</span><span> d3      290</span></span>
+<span class='c'>#&gt; <span style='color: #555555;'>12</span><span> d3      340</span></span>
+<span class='c'>#&gt; <span style='color: #555555;'>13</span><span> d3      330</span></span>
+<span class='c'>#&gt; <span style='color: #555555;'>14</span><span> d3      300</span></span>
+<span class='c'>#&gt; <span style='color: #555555;'>15</span><span> d3      300</span></span>
+</code></pre>
+
+</div>
+
+<div class="highlight">
+
+<pre class='chroma'><code class='language-r' data-lang='r'><span class='c'># Análisis de varianza para DCA</span>
+
+<span class='nv'>r1</span> <span class='o'>&lt;-</span> <span class='nf'><a href='https://rdrr.io/pkg/easyanova/man/ea1.html'>ea1</a></span><span class='o'>(</span>data <span class='o'>=</span> <span class='nv'>data1</span>, <span class='c'># Base de datos</span>
+          design <span class='o'>=</span> <span class='m'>1</span>, <span class='c'># Diseño experimental: 1=DCA, 2=DBCA, etc.</span>
+          alpha <span class='o'>=</span> <span class='m'>0.05</span><span class='o'>)</span> <span class='c'># Probabilidad estadística</span>
+
+</code></pre>
+<img src="figs/unnamed-chunk-15-1.png" width="700px" style="display: block; margin: auto;" />
+<pre class='chroma'><code class='language-r' data-lang='r'><span class='nv'>r1</span>
+
+<span class='c'>#&gt; $`Analysis of variance`</span>
+<span class='c'>#&gt;            df type I SS mean square F value    p&gt;F</span>
+<span class='c'>#&gt; treatments  2      3640   1820.0000  6.1348 0.0146</span>
+<span class='c'>#&gt; Residuals  12      3560    296.6667       -      -</span>
+<span class='c'>#&gt; </span>
+<span class='c'>#&gt; $Means</span>
+<span class='c'>#&gt;   treatment mean standard.error tukey snk duncan t scott_knott</span>
+<span class='c'>#&gt; 1        d3  312         7.7028     a   a      a a           a</span>
+<span class='c'>#&gt; 2        d1  280         7.7028     b   b      b b           b</span>
+<span class='c'>#&gt; 3        d2  278         7.7028     b   b      b b           b</span>
+<span class='c'>#&gt; </span>
+<span class='c'>#&gt; $`Multiple comparison test`</span>
+<span class='c'>#&gt;      pair contrast p(tukey) p(snk) p(duncan)   p(t)</span>
+<span class='c'>#&gt; 1 d3 - d1       32   0.0310 0.0124    0.0124 0.0124</span>
+<span class='c'>#&gt; 2 d3 - d2       34   0.0223 0.0223    0.0112 0.0088</span>
+<span class='c'>#&gt; 3 d1 - d2        2   0.9816 0.8574    0.8574 0.8574</span>
+<span class='c'>#&gt; </span>
+<span class='c'>#&gt; $`Residual analysis`</span>
+<span class='c'>#&gt; $`Residual analysis`$`residual analysis`</span>
+<span class='c'>#&gt;                               values</span>
+<span class='c'>#&gt; p.value Shapiro-Wilk test     0.8937</span>
+<span class='c'>#&gt; p.value Bartlett test         0.5662</span>
+<span class='c'>#&gt; coefficient of variation (%)  5.9400</span>
+<span class='c'>#&gt; first value most discrepant   7.0000</span>
+<span class='c'>#&gt; second value most discrepant 12.0000</span>
+<span class='c'>#&gt; third value most discrepant  11.0000</span>
+<span class='c'>#&gt; </span>
+<span class='c'>#&gt; $`Residual analysis`$residuals</span>
+<span class='c'>#&gt;             1             2             3             4             5 </span>
+<span class='c'>#&gt; -1.000000e+01  2.000000e+01  2.531308e-14  3.952394e-14 -1.000000e+01 </span>
+<span class='c'>#&gt;             6             7             8             9            10 </span>
+<span class='c'>#&gt;  1.200000e+01 -2.800000e+01  2.000000e+00  1.200000e+01  2.000000e+00 </span>
+<span class='c'>#&gt;            11            12            13            14            15 </span>
+<span class='c'>#&gt; -2.200000e+01  2.800000e+01  1.800000e+01 -1.200000e+01 -1.200000e+01 </span>
+<span class='c'>#&gt; </span>
+<span class='c'>#&gt; $`Residual analysis`$`standardized residuals`</span>
+<span class='c'>#&gt;             1             2             3             4             5 </span>
+<span class='c'>#&gt; -6.271032e-01  1.254206e+00  1.557686e-15  2.448853e-15 -6.271032e-01 </span>
+<span class='c'>#&gt;             6             7             8             9            10 </span>
+<span class='c'>#&gt;  7.525238e-01 -1.755889e+00  1.254206e-01  7.525238e-01  1.254206e-01 </span>
+<span class='c'>#&gt;            11            12            13            14            15 </span>
+<span class='c'>#&gt; -1.379627e+00  1.755889e+00  1.128786e+00 -7.525238e-01 -7.525238e-01</span>
+</code></pre>
+
+</div>
+
+En la salida se puede observar el resultado de `análisis de varianza`, `prueba de promedios` y `comparación múltiple de medias`. Estas salidas son muy fáciles de obtener y poder interpretar las mismas. Asimismo, se puede verificar la `normalidad` y `coeficiente de variación` de los datos.
+
+### Visualización de la prueba de promedios
+
 Si está interesado en incluir resultados de ANVA y pruebas de promedio directamente en los boxplot, aquí hay un fragmento de código que puede ser de su interés:
 
 <div class="highlight">
@@ -451,10 +550,10 @@ Si está interesado en incluir resultados de ANVA y pruebas de promedio directam
 <span class='nv'>dat</span> <span class='o'>&lt;-</span> <span class='nv'>iris</span>
 <span class='c'># Editar desde aquí</span>
 <span class='nv'>x</span> <span class='o'>&lt;-</span> <span class='nf'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='o'>(</span><span class='nf'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='o'>(</span><span class='nv'>dat</span><span class='o'>)</span> <span class='o'>==</span> <span class='s'>"Species"</span><span class='o'>)</span> <span class='c'>#variable de agrupación</span>
-<span class='nv'>y</span> <span class='o'>&lt;-</span> <span class='nf'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='o'>(</span><span class='nf'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='o'>(</span><span class='nv'>dat</span><span class='o'>)</span> <span class='o'>==</span> <span class='s'>"Sepal.Length"</span> <span class='c'>#variables para la prueba de promedios</span>
-          <span class='o'>|</span> <span class='nf'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='o'>(</span><span class='nv'>dat</span><span class='o'>)</span> <span class='o'>==</span> <span class='s'>"Sepal.Width"</span>
-          <span class='o'>|</span> <span class='nf'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='o'>(</span><span class='nv'>dat</span><span class='o'>)</span> <span class='o'>==</span> <span class='s'>"Petal.Length"</span>
-          <span class='o'>|</span> <span class='nf'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='o'>(</span><span class='nv'>dat</span><span class='o'>)</span> <span class='o'>==</span> <span class='s'>"Petal.Width"</span><span class='o'>)</span>
+<span class='nv'>y</span> <span class='o'>&lt;-</span> <span class='nf'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='o'>(</span><span class='nf'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='o'>(</span><span class='nv'>dat</span><span class='o'>)</span> <span class='o'>==</span> <span class='s'>"Sepal.Width"</span><span class='o'>)</span> <span class='c'>#variables para la prueba de promedios</span>
+          <span class='c'>#| names(dat) == "Sepal.Length"</span>
+          <span class='c'>#| names(dat) == "Petal.Length"</span>
+          <span class='c'>#| names(dat) == "Petal.Width")</span>
 <span class='nv'>method1</span> <span class='o'>&lt;-</span> <span class='s'>"anova"</span> <span class='c'># Una de "anova" o "kruskal.test"</span>
 <span class='nv'>method2</span> <span class='o'>&lt;-</span> <span class='s'>"t.test"</span> <span class='c'># Una de "wilcox.test" o "t.test"</span>
 <span class='nv'>my_comparisons</span> <span class='o'>&lt;-</span> <span class='nf'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='o'>(</span><span class='nf'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='o'>(</span><span class='s'>"setosa"</span>, <span class='s'>"versicolor"</span><span class='o'>)</span>, <span class='nf'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='o'>(</span><span class='s'>"setosa"</span>, <span class='s'>"virginica"</span><span class='o'>)</span>, <span class='nf'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='o'>(</span><span class='s'>"versicolor"</span>, <span class='s'>"virginica"</span><span class='o'>)</span><span class='o'>)</span> <span class='c'># comparaciones para pruebas de promedio</span>
@@ -480,7 +579,44 @@ Si está interesado en incluir resultados de ANVA y pruebas de promedio directam
 <span class='o'>}</span>
 
 </code></pre>
-<img src="figs/unnamed-chunk-14-1.png" width="700px" style="display: block; margin: auto;" /><img src="figs/unnamed-chunk-14-2.png" width="700px" style="display: block; margin: auto;" /><img src="figs/unnamed-chunk-14-3.png" width="700px" style="display: block; margin: auto;" /><img src="figs/unnamed-chunk-14-4.png" width="700px" style="display: block; margin: auto;" />
+<img src="figs/unnamed-chunk-16-1.png" width="700px" style="display: block; margin: auto;" />
+
+</div>
+
+Otra opción de gráfica para observar la significancia entre las medias de cada par de especies.
+
+<div class="highlight">
+
+<pre class='chroma'><code class='language-r' data-lang='r'><span class='c'># pairwise comparisons</span>
+<span class='kr'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='o'>(</span><span class='nv'><a href='https://rpkgs.datanovia.com/rstatix/'>rstatix</a></span><span class='o'>)</span>
+
+<span class='c'>#&gt; </span>
+<span class='c'>#&gt; Attaching package: 'rstatix'</span>
+
+<span class='c'>#&gt; The following object is masked from 'package:MASS':</span>
+<span class='c'>#&gt; </span>
+<span class='c'>#&gt;     select</span>
+
+<span class='c'>#&gt; The following object is masked from 'package:stats':</span>
+<span class='c'>#&gt; </span>
+<span class='c'>#&gt;     filter</span>
+
+<span class='nv'>pwc</span> <span class='o'>&lt;-</span> <span class='nv'>data1</span> <span class='o'>%&gt;%</span>
+  <span class='nf'><a href='https://rpkgs.datanovia.com/rstatix/reference/t_test.html'>pairwise_t_test</a></span><span class='o'>(</span>
+    <span class='nv'>Gain</span> <span class='o'>~</span> <span class='nv'>Diet</span>, pool.sd <span class='o'>=</span> <span class='kc'>FALSE</span>,
+    p.adjust.method <span class='o'>=</span> <span class='s'>"none"</span>
+    <span class='o'>)</span>
+
+<span class='c'># Visualization: box plots with p-values</span>
+<span class='nv'>pwc</span> <span class='o'>&lt;-</span> <span class='nv'>pwc</span> <span class='o'>%&gt;%</span> <span class='nf'><a href='https://rpkgs.datanovia.com/rstatix/reference/get_pvalue_position.html'>add_xy_position</a></span><span class='o'>(</span>x <span class='o'>=</span> <span class='s'>"Diet"</span><span class='o'>)</span>
+<span class='nf'><a href='https://rpkgs.datanovia.com/ggpubr/reference/ggboxplot.html'>ggboxplot</a></span><span class='o'>(</span><span class='nv'>data1</span>, x <span class='o'>=</span> <span class='s'>"Diet"</span>, y <span class='o'>=</span> <span class='s'>"Gain"</span>,
+          color <span class='o'>=</span> <span class='s'>"Diet"</span>, 
+          legend <span class='o'>=</span> <span class='s'>"none"</span>, 
+          add <span class='o'>=</span> <span class='s'>"jitter"</span><span class='o'>)</span> <span class='o'>+</span>
+  <span class='nf'><a href='https://rpkgs.datanovia.com/ggpubr/reference/stat_pvalue_manual.html'>stat_pvalue_manual</a></span><span class='o'>(</span><span class='nv'>pwc</span>, hide.ns <span class='o'>=</span> <span class='kc'>TRUE</span><span class='o'>)</span> 
+
+</code></pre>
+<img src="figs/unnamed-chunk-17-1.png" width="700px" style="display: block; margin: auto;" />
 
 </div>
 

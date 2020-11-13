@@ -45,7 +45,10 @@ El dato que se utilizará es `iris`, que se encuentra en la base de datos de R. 
 ```{r}
 #paquetes R a utilizar
 library(tidyverse)
+library(easyanova)
 ```
+
+La librería de `easyanova` es un paquete para realizar análisis de experimentos agrícolas y animales. Las funciones de esta librería son fáciles de usar. Realiza análisis en varios diseños, con datos balanceados y no balanceados.
 
 Salida de datos a utilizar:
 
@@ -174,9 +177,9 @@ Este resultado también está en línea con el enfoque visual, por lo que la hom
 ## Análisis de varianza en R
 El ANVA puede ayudarnos a hacer inferencias sobre la población dada la muestra en cuestión y ayudarnos a responder la pregunta de investigación “¿Existe diferencia en ancho de sépalo para las 3 especies?”.
 
-El ANVA en R se puede realizar de varias formas, de las cuales dos se presentan a continuación:
+El ANVA en R se puede realizar de varias formas, de las cuales tres se presentan a continuación:
 
-1. Con la función `oneway.test()`:
+a). Con la función `oneway.test()`:
 
 ```{r}
 # primer metodo:
@@ -186,7 +189,7 @@ oneway.test(Sepal.Width ~ Species,
 )
 ```
 
-2. Con las funciones de `summary()` y `aov()`:
+b). Con las funciones de `summary()` y `aov()`:
 
 ```{r}
 # 2nd method:
@@ -267,7 +270,27 @@ TukeyHSD(res_aov)
 Con este código, es la columna `p adj` (también la última columna) la que interesa. Tenga en cuenta que las conclusiones son las mismas que las anteriores: todas las especies son significativamente diferentes en términos de ancho de sépalo.
 
 ## Visualización de ANVA y pruebas de promedio
+Para realizar de forma más fácil un análisis de varianza, se puede usar la librería `easyanova` para analizar diferentes diseños experimentales. 
 
+### Análisis de varianza con `easyanova`
+`data1` es la base de datos que se usará con la librería `easyanova`.
+```{r}
+data("data1")
+tibble(data1)
+```
+
+```{r}
+# Análisis de varianza para DCA
+
+r1 <- ea1(data = data1, # Base de datos
+          design = 1, # Diseño experimental: 1=DCA, 2=DBCA, etc.
+          alpha = 0.05) # Probabilidad estadística
+r1
+```
+
+En la salida se puede observar el resultado de `análisis de varianza`, `prueba de promedios` y `comparación múltiple de medias`. Estas salidas son muy fáciles de obtener y poder interpretar las mismas. Asimismo, se puede verificar la `normalidad` y `coeficiente de variación` de los datos.
+
+### Visualización de la prueba de promedios
 Si está interesado en incluir resultados de ANVA y pruebas de promedio directamente en los boxplot, aquí hay un fragmento de código que puede ser de su interés:
 
 ```{r}
@@ -276,10 +299,10 @@ library(ggpubr)
 dat <- iris
 # Editar desde aquí
 x <- which(names(dat) == "Species") #variable de agrupación
-y <- which(names(dat) == "Sepal.Length" #variables para la prueba de promedios
-          | names(dat) == "Sepal.Width"
-          | names(dat) == "Petal.Length"
-          | names(dat) == "Petal.Width")
+y <- which(names(dat) == "Sepal.Width") #variables para la prueba de promedios
+          #| names(dat) == "Sepal.Length"
+          #| names(dat) == "Petal.Length"
+          #| names(dat) == "Petal.Width")
 method1 <- "anova" # Una de "anova" o "kruskal.test"
 method2 <- "t.test" # Una de "wilcox.test" o "t.test"
 my_comparisons <- list(c("setosa", "versicolor"), c("setosa", "virginica"), c("versicolor", "virginica")) # comparaciones para pruebas de promedio
@@ -305,6 +328,27 @@ for (i in y) {
 }
 ```
 
+Otra opción de gráfica para observar la significancia entre las medias de cada par de especies.
+```{r}
+# pairwise comparisons
+library(rstatix)
+pwc <- data1 %>%
+  pairwise_t_test(
+    Gain ~ Diet, pool.sd = FALSE,
+    p.adjust.method = "none"
+    )
+
+# Visualization: box plots with p-values
+pwc <- pwc %>% add_xy_position(x = "Diet")
+ggboxplot(data1, x = "Diet", y = "Gain",
+          color = "Diet", 
+          legend = "none", 
+          add = "jitter") +
+  stat_pvalue_manual(pwc, hide.ns = TRUE) 
+```
+
+
+
 ## Conclusión
 La figura de prueba de promedios es muy buena opción para incluir en la sección de resultados de los reportes de investigación. La figura incluye el resultado de p-valor del análisis de varianza, además, p-valor para la comparación de medias entre especies o tratamientos de la investigación. 
 
@@ -312,6 +356,4 @@ La figura de prueba de promedios es muy buena opción para incluir en la secció
 ## Referencias
 1. R bloggers 2020. [ANOVA in R](https://www.r-bloggers.com/2020/10/anova-in-r/)
 2. Soetewey A. 2020. [How to do a t-test or ANOVA for more than one variable at once in R](https://towardsdatascience.com/how-to-do-a-t-test-or-anova-for-many-variables-at-once-in-r-and-communicate-the-results-in-a-6defaa712e5)
-
-
 
