@@ -27,7 +27,7 @@ image:
 #   E.g. `projects = ["internal-project"]` references `content/project/deep-learning/index.md`.
 #   Otherwise, set `projects = []`.
 projects: []
-rmd_hash: 8fb338262478d6b3
+rmd_hash: b14fda81c5190925
 
 ---
 
@@ -401,9 +401,9 @@ En R, la prueba de Tukey HSD se realiza de la siguiente manera. Aquí es donde e
 <span class='c'>#&gt; </span>
 <span class='c'>#&gt; Linear Hypotheses:</span>
 <span class='c'>#&gt;                             Estimate Std. Error t value Pr(&gt;|t|)    </span>
-<span class='c'>#&gt; versicolor - setosa == 0    -0.65800    0.06794  -9.685  &lt; 0.001 ***</span>
-<span class='c'>#&gt; virginica - setosa == 0     -0.45400    0.06794  -6.683  &lt; 0.001 ***</span>
-<span class='c'>#&gt; virginica - versicolor == 0  0.20400    0.06794   3.003  0.00875 ** </span>
+<span class='c'>#&gt; versicolor - setosa == 0    -0.65800    0.06794  -9.685  &lt; 1e-04 ***</span>
+<span class='c'>#&gt; virginica - setosa == 0     -0.45400    0.06794  -6.683  &lt; 1e-04 ***</span>
+<span class='c'>#&gt; virginica - versicolor == 0  0.20400    0.06794   3.003  0.00881 ** </span>
 <span class='c'>#&gt; ---</span>
 <span class='c'>#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
 <span class='c'>#&gt; (Adjusted p values reported -- single-step method)</span>
@@ -450,31 +450,28 @@ Para realizar de forma más fácil un análisis de varianza, se puede usar la li
 
 ### Análisis de varianza con `easyanova`
 
-`data1` es la base de datos que se usará con la librería `easyanova`.
+Para proceder con ANVA los datos de `iris` se selecciona y ordena para dar uso con el paquete `easyanova`.
 
 <div class="highlight">
 
-<pre class='chroma'><code class='language-r' data-lang='r'><span class='nf'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='o'>(</span><span class='s'>"data1"</span><span class='o'>)</span>
-<span class='nf'>tibble</span><span class='o'>(</span><span class='nv'>data1</span><span class='o'>)</span>
+<pre class='chroma'><code class='language-r' data-lang='r'><span class='nv'>fsdata</span> <span class='o'>&lt;-</span> <span class='nv'>iris</span> <span class='o'>%&gt;%</span>
+  <span class='nf'>dplyr</span><span class='nf'>::</span><span class='nf'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='o'>(</span><span class='nv'>Species</span>, <span class='nv'>Sepal.Width</span><span class='o'>)</span>
+<span class='nf'>tibble</span><span class='o'>(</span><span class='nv'>fsdata</span><span class='o'>)</span>
 
-<span class='c'>#&gt; <span style='color: #555555;'># A tibble: 15 x 2</span></span>
-<span class='c'>#&gt;    Diet   Gain</span>
-<span class='c'>#&gt;    <span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span></span>
-<span class='c'>#&gt; <span style='color: #555555;'> 1</span><span> d1      270</span></span>
-<span class='c'>#&gt; <span style='color: #555555;'> 2</span><span> d1      300</span></span>
-<span class='c'>#&gt; <span style='color: #555555;'> 3</span><span> d1      280</span></span>
-<span class='c'>#&gt; <span style='color: #555555;'> 4</span><span> d1      280</span></span>
-<span class='c'>#&gt; <span style='color: #555555;'> 5</span><span> d1      270</span></span>
-<span class='c'>#&gt; <span style='color: #555555;'> 6</span><span> d2      290</span></span>
-<span class='c'>#&gt; <span style='color: #555555;'> 7</span><span> d2      250</span></span>
-<span class='c'>#&gt; <span style='color: #555555;'> 8</span><span> d2      280</span></span>
-<span class='c'>#&gt; <span style='color: #555555;'> 9</span><span> d2      290</span></span>
-<span class='c'>#&gt; <span style='color: #555555;'>10</span><span> d2      280</span></span>
-<span class='c'>#&gt; <span style='color: #555555;'>11</span><span> d3      290</span></span>
-<span class='c'>#&gt; <span style='color: #555555;'>12</span><span> d3      340</span></span>
-<span class='c'>#&gt; <span style='color: #555555;'>13</span><span> d3      330</span></span>
-<span class='c'>#&gt; <span style='color: #555555;'>14</span><span> d3      300</span></span>
-<span class='c'>#&gt; <span style='color: #555555;'>15</span><span> d3      300</span></span>
+<span class='c'>#&gt; <span style='color: #555555;'># A tibble: 150 x 2</span></span>
+<span class='c'>#&gt;    Species Sepal.Width</span>
+<span class='c'>#&gt;    <span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='c'>#&gt; <span style='color: #555555;'> 1</span><span> setosa          3.5</span></span>
+<span class='c'>#&gt; <span style='color: #555555;'> 2</span><span> setosa          3  </span></span>
+<span class='c'>#&gt; <span style='color: #555555;'> 3</span><span> setosa          3.2</span></span>
+<span class='c'>#&gt; <span style='color: #555555;'> 4</span><span> setosa          3.1</span></span>
+<span class='c'>#&gt; <span style='color: #555555;'> 5</span><span> setosa          3.6</span></span>
+<span class='c'>#&gt; <span style='color: #555555;'> 6</span><span> setosa          3.9</span></span>
+<span class='c'>#&gt; <span style='color: #555555;'> 7</span><span> setosa          3.4</span></span>
+<span class='c'>#&gt; <span style='color: #555555;'> 8</span><span> setosa          3.4</span></span>
+<span class='c'>#&gt; <span style='color: #555555;'> 9</span><span> setosa          2.9</span></span>
+<span class='c'>#&gt; <span style='color: #555555;'>10</span><span> setosa          3.1</span></span>
+<span class='c'>#&gt; <span style='color: #555555;'># … with 140 more rows</span></span>
 </code></pre>
 
 </div>
@@ -483,7 +480,7 @@ Para realizar de forma más fácil un análisis de varianza, se puede usar la li
 
 <pre class='chroma'><code class='language-r' data-lang='r'><span class='c'># Análisis de varianza para DCA</span>
 
-<span class='nv'>r1</span> <span class='o'>&lt;-</span> <span class='nf'><a href='https://rdrr.io/pkg/easyanova/man/ea1.html'>ea1</a></span><span class='o'>(</span>data <span class='o'>=</span> <span class='nv'>data1</span>, <span class='c'># Base de datos</span>
+<span class='nv'>r1</span> <span class='o'>&lt;-</span> <span class='nf'><a href='https://rdrr.io/pkg/easyanova/man/ea1.html'>ea1</a></span><span class='o'>(</span>data <span class='o'>=</span> <span class='nv'>fsdata</span>, <span class='c'># Base de datos</span>
           design <span class='o'>=</span> <span class='m'>1</span>, <span class='c'># Diseño experimental: 1=DCA, 2=DBCA, etc.</span>
           alpha <span class='o'>=</span> <span class='m'>0.05</span><span class='o'>)</span> <span class='c'># Probabilidad estadística</span>
 
@@ -492,47 +489,113 @@ Para realizar de forma más fácil un análisis de varianza, se puede usar la li
 <pre class='chroma'><code class='language-r' data-lang='r'><span class='nv'>r1</span>
 
 <span class='c'>#&gt; $`Analysis of variance`</span>
-<span class='c'>#&gt;            df type I SS mean square F value    p&gt;F</span>
-<span class='c'>#&gt; treatments  2      3640   1820.0000  6.1348 0.0146</span>
-<span class='c'>#&gt; Residuals  12      3560    296.6667       -      -</span>
+<span class='c'>#&gt;             df type I SS mean square F value    p&gt;F</span>
+<span class='c'>#&gt; treatments   2   11.3449      5.6725   49.16 &lt;0.001</span>
+<span class='c'>#&gt; Residuals  147   16.9620      0.1154       -      -</span>
 <span class='c'>#&gt; </span>
 <span class='c'>#&gt; $Means</span>
-<span class='c'>#&gt;   treatment mean standard.error tukey snk duncan t scott_knott</span>
-<span class='c'>#&gt; 1        d3  312         7.7028     a   a      a a           a</span>
-<span class='c'>#&gt; 2        d1  280         7.7028     b   b      b b           b</span>
-<span class='c'>#&gt; 3        d2  278         7.7028     b   b      b b           b</span>
+<span class='c'>#&gt;    treatment  mean standard.error tukey snk duncan t scott_knott</span>
+<span class='c'>#&gt; 1     setosa 3.428          0.048     a   a      a a           a</span>
+<span class='c'>#&gt; 2  virginica 2.974          0.048     b   b      b b           b</span>
+<span class='c'>#&gt; 3 versicolor 2.770          0.048     c   c      c c           c</span>
 <span class='c'>#&gt; </span>
 <span class='c'>#&gt; $`Multiple comparison test`</span>
-<span class='c'>#&gt;      pair contrast p(tukey) p(snk) p(duncan)   p(t)</span>
-<span class='c'>#&gt; 1 d3 - d1       32   0.0310 0.0124    0.0124 0.0124</span>
-<span class='c'>#&gt; 2 d3 - d2       34   0.0223 0.0223    0.0112 0.0088</span>
-<span class='c'>#&gt; 3 d1 - d2        2   0.9816 0.8574    0.8574 0.8574</span>
+<span class='c'>#&gt;                     pair contrast p(tukey) p(snk) p(duncan)   p(t)</span>
+<span class='c'>#&gt; 1     setosa - virginica    0.454   0.0000 0.0000    0.0000 0.0000</span>
+<span class='c'>#&gt; 2    setosa - versicolor    0.658   0.0000 0.0000    0.0000 0.0000</span>
+<span class='c'>#&gt; 3 virginica - versicolor    0.204   0.0087 0.0031    0.0031 0.0031</span>
 <span class='c'>#&gt; </span>
 <span class='c'>#&gt; $`Residual analysis`</span>
 <span class='c'>#&gt; $`Residual analysis`$`residual analysis`</span>
-<span class='c'>#&gt;                               values</span>
-<span class='c'>#&gt; p.value Shapiro-Wilk test     0.8937</span>
-<span class='c'>#&gt; p.value Bartlett test         0.5662</span>
-<span class='c'>#&gt; coefficient of variation (%)  5.9400</span>
-<span class='c'>#&gt; first value most discrepant   7.0000</span>
-<span class='c'>#&gt; second value most discrepant 12.0000</span>
-<span class='c'>#&gt; third value most discrepant  11.0000</span>
+<span class='c'>#&gt;                                values</span>
+<span class='c'>#&gt; p.value Shapiro-Wilk test      0.3230</span>
+<span class='c'>#&gt; p.value Bartlett test          0.3515</span>
+<span class='c'>#&gt; coefficient of variation (%)  11.1100</span>
+<span class='c'>#&gt; first value most discrepant   42.0000</span>
+<span class='c'>#&gt; second value most discrepant  16.0000</span>
+<span class='c'>#&gt; third value most discrepant  118.0000</span>
 <span class='c'>#&gt; </span>
 <span class='c'>#&gt; $`Residual analysis`$residuals</span>
-<span class='c'>#&gt;             1             2             3             4             5 </span>
-<span class='c'>#&gt; -1.000000e+01  2.000000e+01  2.531308e-14  3.952394e-14 -1.000000e+01 </span>
-<span class='c'>#&gt;             6             7             8             9            10 </span>
-<span class='c'>#&gt;  1.200000e+01 -2.800000e+01  2.000000e+00  1.200000e+01  2.000000e+00 </span>
-<span class='c'>#&gt;            11            12            13            14            15 </span>
-<span class='c'>#&gt; -2.200000e+01  2.800000e+01  1.800000e+01 -1.200000e+01 -1.200000e+01 </span>
+<span class='c'>#&gt;      1      2      3      4      5      6      7      8      9     10     11 </span>
+<span class='c'>#&gt;  0.072 -0.428 -0.228 -0.328  0.172  0.472 -0.028 -0.028 -0.528 -0.328  0.272 </span>
+<span class='c'>#&gt;     12     13     14     15     16     17     18     19     20     21     22 </span>
+<span class='c'>#&gt; -0.028 -0.428 -0.428  0.572  0.972  0.472  0.072  0.372  0.372 -0.028  0.272 </span>
+<span class='c'>#&gt;     23     24     25     26     27     28     29     30     31     32     33 </span>
+<span class='c'>#&gt;  0.172 -0.128 -0.028 -0.428 -0.028  0.072 -0.028 -0.228 -0.328 -0.028  0.672 </span>
+<span class='c'>#&gt;     34     35     36     37     38     39     40     41     42     43     44 </span>
+<span class='c'>#&gt;  0.772 -0.328 -0.228  0.072  0.172 -0.428 -0.028  0.072 -1.128 -0.228  0.072 </span>
+<span class='c'>#&gt;     45     46     47     48     49     50     51     52     53     54     55 </span>
+<span class='c'>#&gt;  0.372 -0.428  0.372 -0.228  0.272 -0.128  0.430  0.430  0.330 -0.470  0.030 </span>
+<span class='c'>#&gt;     56     57     58     59     60     61     62     63     64     65     66 </span>
+<span class='c'>#&gt;  0.030  0.530 -0.370  0.130 -0.070 -0.770  0.230 -0.570  0.130  0.130  0.330 </span>
+<span class='c'>#&gt;     67     68     69     70     71     72     73     74     75     76     77 </span>
+<span class='c'>#&gt;  0.230 -0.070 -0.570 -0.270  0.430  0.030 -0.270  0.030  0.130  0.230  0.030 </span>
+<span class='c'>#&gt;     78     79     80     81     82     83     84     85     86     87     88 </span>
+<span class='c'>#&gt;  0.230  0.130 -0.170 -0.370 -0.370 -0.070 -0.070  0.230  0.630  0.330 -0.470 </span>
+<span class='c'>#&gt;     89     90     91     92     93     94     95     96     97     98     99 </span>
+<span class='c'>#&gt;  0.230 -0.270 -0.170  0.230 -0.170 -0.470 -0.070  0.230  0.130  0.130 -0.270 </span>
+<span class='c'>#&gt;    100    101    102    103    104    105    106    107    108    109    110 </span>
+<span class='c'>#&gt;  0.030  0.326 -0.274  0.026 -0.074  0.026  0.026 -0.474 -0.074 -0.474  0.626 </span>
+<span class='c'>#&gt;    111    112    113    114    115    116    117    118    119    120    121 </span>
+<span class='c'>#&gt;  0.226 -0.274  0.026 -0.474 -0.174  0.226  0.026  0.826 -0.374 -0.774  0.226 </span>
+<span class='c'>#&gt;    122    123    124    125    126    127    128    129    130    131    132 </span>
+<span class='c'>#&gt; -0.174 -0.174 -0.274  0.326  0.226 -0.174  0.026 -0.174  0.026 -0.174  0.826 </span>
+<span class='c'>#&gt;    133    134    135    136    137    138    139    140    141    142    143 </span>
+<span class='c'>#&gt; -0.174 -0.174 -0.374  0.026  0.426  0.126  0.026  0.126  0.126  0.126 -0.274 </span>
+<span class='c'>#&gt;    144    145    146    147    148    149    150 </span>
+<span class='c'>#&gt;  0.226  0.326  0.026 -0.474  0.026  0.426  0.026 </span>
 <span class='c'>#&gt; </span>
 <span class='c'>#&gt; $`Residual analysis`$`standardized residuals`</span>
-<span class='c'>#&gt;             1             2             3             4             5 </span>
-<span class='c'>#&gt; -6.271032e-01  1.254206e+00  1.557686e-15  2.448853e-15 -6.271032e-01 </span>
-<span class='c'>#&gt;             6             7             8             9            10 </span>
-<span class='c'>#&gt;  7.525238e-01 -1.755889e+00  1.254206e-01  7.525238e-01  1.254206e-01 </span>
-<span class='c'>#&gt;            11            12            13            14            15 </span>
-<span class='c'>#&gt; -1.379627e+00  1.755889e+00  1.128786e+00 -7.525238e-01 -7.525238e-01</span>
+<span class='c'>#&gt;           1           2           3           4           5           6 </span>
+<span class='c'>#&gt;  0.21339641 -1.26852308 -0.67575529 -0.97213918  0.50978030  1.39893200 </span>
+<span class='c'>#&gt;           7           8           9          10          11          12 </span>
+<span class='c'>#&gt; -0.08298749 -0.08298749 -1.56490698 -0.97213918  0.80616420 -0.08298749 </span>
+<span class='c'>#&gt;          13          14          15          16          17          18 </span>
+<span class='c'>#&gt; -1.26852308 -1.26852308  1.69531589  2.88085148  1.39893200  0.21339641 </span>
+<span class='c'>#&gt;          19          20          21          22          23          24 </span>
+<span class='c'>#&gt;  1.10254810  1.10254810 -0.08298749  0.80616420  0.50978030 -0.37937139 </span>
+<span class='c'>#&gt;          25          26          27          28          29          30 </span>
+<span class='c'>#&gt; -0.08298749 -1.26852308 -0.08298749  0.21339641 -0.08298749 -0.67575529 </span>
+<span class='c'>#&gt;          31          32          33          34          35          36 </span>
+<span class='c'>#&gt; -0.97213918 -0.08298749  1.99169979  2.28808369 -0.97213918 -0.67575529 </span>
+<span class='c'>#&gt;          37          38          39          40          41          42 </span>
+<span class='c'>#&gt;  0.21339641  0.50978030 -1.26852308 -0.08298749  0.21339641 -3.34321036 </span>
+<span class='c'>#&gt;          43          44          45          46          47          48 </span>
+<span class='c'>#&gt; -0.67575529  0.21339641  1.10254810 -1.26852308  1.10254810 -0.67575529 </span>
+<span class='c'>#&gt;          49          50          51          52          53          54 </span>
+<span class='c'>#&gt;  0.80616420 -0.37937139  1.27445076  1.27445076  0.97806686 -1.39300432 </span>
+<span class='c'>#&gt;          55          56          57          58          59          60 </span>
+<span class='c'>#&gt;  0.08891517  0.08891517  1.57083466 -1.09662042  0.38529907 -0.20746873 </span>
+<span class='c'>#&gt;          61          62          63          64          65          66 </span>
+<span class='c'>#&gt; -2.28215601  0.68168296 -1.68938822  0.38529907  0.38529907  0.97806686 </span>
+<span class='c'>#&gt;          67          68          69          70          71          72 </span>
+<span class='c'>#&gt;  0.68168296 -0.20746873 -1.68938822 -0.80023652  1.27445076  0.08891517 </span>
+<span class='c'>#&gt;          73          74          75          76          77          78 </span>
+<span class='c'>#&gt; -0.80023652  0.08891517  0.38529907  0.68168296  0.08891517  0.68168296 </span>
+<span class='c'>#&gt;          79          80          81          82          83          84 </span>
+<span class='c'>#&gt;  0.38529907 -0.50385263 -1.09662042 -1.09662042 -0.20746873 -0.20746873 </span>
+<span class='c'>#&gt;          85          86          87          88          89          90 </span>
+<span class='c'>#&gt;  0.68168296  1.86721855  0.97806686 -1.39300432  0.68168296 -0.80023652 </span>
+<span class='c'>#&gt;          91          92          93          94          95          96 </span>
+<span class='c'>#&gt; -0.50385263  0.68168296 -0.50385263 -1.39300432 -0.20746873  0.68168296 </span>
+<span class='c'>#&gt;          97          98          99         100         101         102 </span>
+<span class='c'>#&gt;  0.38529907  0.38529907 -0.80023652  0.08891517  0.96621151 -0.81209188 </span>
+<span class='c'>#&gt;         103         104         105         106         107         108 </span>
+<span class='c'>#&gt;  0.07705981 -0.21932408  0.07705981  0.07705981 -1.40485967 -0.21932408 </span>
+<span class='c'>#&gt;         109         110         111         112         113         114 </span>
+<span class='c'>#&gt; -1.40485967  1.85536320  0.66982761 -0.81209188  0.07705981 -1.40485967 </span>
+<span class='c'>#&gt;         115         116         117         118         119         120 </span>
+<span class='c'>#&gt; -0.51570798  0.66982761  0.07705981  2.44813099 -1.10847578 -2.29401137 </span>
+<span class='c'>#&gt;         121         122         123         124         125         126 </span>
+<span class='c'>#&gt;  0.66982761 -0.51570798 -0.51570798 -0.81209188  0.96621151  0.66982761 </span>
+<span class='c'>#&gt;         127         128         129         130         131         132 </span>
+<span class='c'>#&gt; -0.51570798  0.07705981 -0.51570798  0.07705981 -0.51570798  2.44813099 </span>
+<span class='c'>#&gt;         133         134         135         136         137         138 </span>
+<span class='c'>#&gt; -0.51570798 -0.51570798 -1.10847578  0.07705981  1.26259540  0.37344371 </span>
+<span class='c'>#&gt;         139         140         141         142         143         144 </span>
+<span class='c'>#&gt;  0.07705981  0.37344371  0.37344371  0.37344371 -0.81209188  0.66982761 </span>
+<span class='c'>#&gt;         145         146         147         148         149         150 </span>
+<span class='c'>#&gt;  0.96621151  0.07705981 -1.40485967  0.07705981  1.26259540  0.07705981</span>
 </code></pre>
 
 </div>
@@ -601,16 +664,16 @@ Otra opción de gráfica para observar la significancia entre las medias de cada
 <span class='c'>#&gt; </span>
 <span class='c'>#&gt;     filter</span>
 
-<span class='nv'>pwc</span> <span class='o'>&lt;-</span> <span class='nv'>data1</span> <span class='o'>%&gt;%</span>
+<span class='nv'>pwc</span> <span class='o'>&lt;-</span> <span class='nv'>fsdata</span> <span class='o'>%&gt;%</span>
   <span class='nf'><a href='https://rpkgs.datanovia.com/rstatix/reference/t_test.html'>pairwise_t_test</a></span><span class='o'>(</span>
-    <span class='nv'>Gain</span> <span class='o'>~</span> <span class='nv'>Diet</span>, pool.sd <span class='o'>=</span> <span class='kc'>FALSE</span>,
+    <span class='nv'>Sepal.Width</span> <span class='o'>~</span> <span class='nv'>Species</span>, pool.sd <span class='o'>=</span> <span class='kc'>FALSE</span>,
     p.adjust.method <span class='o'>=</span> <span class='s'>"none"</span>
     <span class='o'>)</span>
 
 <span class='c'># Visualization: box plots with p-values</span>
-<span class='nv'>pwc</span> <span class='o'>&lt;-</span> <span class='nv'>pwc</span> <span class='o'>%&gt;%</span> <span class='nf'><a href='https://rpkgs.datanovia.com/rstatix/reference/get_pvalue_position.html'>add_xy_position</a></span><span class='o'>(</span>x <span class='o'>=</span> <span class='s'>"Diet"</span><span class='o'>)</span>
-<span class='nf'><a href='https://rpkgs.datanovia.com/ggpubr/reference/ggboxplot.html'>ggboxplot</a></span><span class='o'>(</span><span class='nv'>data1</span>, x <span class='o'>=</span> <span class='s'>"Diet"</span>, y <span class='o'>=</span> <span class='s'>"Gain"</span>,
-          color <span class='o'>=</span> <span class='s'>"Diet"</span>, 
+<span class='nv'>pwc</span> <span class='o'>&lt;-</span> <span class='nv'>pwc</span> <span class='o'>%&gt;%</span> <span class='nf'><a href='https://rpkgs.datanovia.com/rstatix/reference/get_pvalue_position.html'>add_xy_position</a></span><span class='o'>(</span>x <span class='o'>=</span> <span class='s'>"Species"</span><span class='o'>)</span>
+<span class='nf'><a href='https://rpkgs.datanovia.com/ggpubr/reference/ggboxplot.html'>ggboxplot</a></span><span class='o'>(</span><span class='nv'>fsdata</span>, x <span class='o'>=</span> <span class='s'>"Species"</span>, y <span class='o'>=</span> <span class='s'>"Sepal.Width"</span>,
+          color <span class='o'>=</span> <span class='s'>"Species"</span>, 
           legend <span class='o'>=</span> <span class='s'>"none"</span>, 
           add <span class='o'>=</span> <span class='s'>"jitter"</span><span class='o'>)</span> <span class='o'>+</span>
   <span class='nf'><a href='https://rpkgs.datanovia.com/ggpubr/reference/stat_pvalue_manual.html'>stat_pvalue_manual</a></span><span class='o'>(</span><span class='nv'>pwc</span>, hide.ns <span class='o'>=</span> <span class='kc'>TRUE</span><span class='o'>)</span> 

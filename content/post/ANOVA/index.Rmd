@@ -273,16 +273,17 @@ Con este código, es la columna `p adj` (también la última columna) la que int
 Para realizar de forma más fácil un análisis de varianza, se puede usar la librería `easyanova` para analizar diferentes diseños experimentales. 
 
 ### Análisis de varianza con `easyanova`
-`data1` es la base de datos que se usará con la librería `easyanova`.
+Para proceder con ANVA los datos de `iris` se selecciona y ordena para dar uso con el paquete `easyanova`.
 ```{r}
-data("data1")
-tibble(data1)
+fsdata <- iris %>%
+  dplyr::select(Species, Sepal.Width)
+tibble(fsdata)
 ```
 
 ```{r}
 # Análisis de varianza para DCA
 
-r1 <- ea1(data = data1, # Base de datos
+r1 <- ea1(data = fsdata, # Base de datos
           design = 1, # Diseño experimental: 1=DCA, 2=DBCA, etc.
           alpha = 0.05) # Probabilidad estadística
 r1
@@ -332,16 +333,16 @@ Otra opción de gráfica para observar la significancia entre las medias de cada
 ```{r}
 # pairwise comparisons
 library(rstatix)
-pwc <- data1 %>%
+pwc <- fsdata %>%
   pairwise_t_test(
-    Gain ~ Diet, pool.sd = FALSE,
+    Sepal.Width ~ Species, pool.sd = FALSE,
     p.adjust.method = "none"
     )
 
 # Visualization: box plots with p-values
-pwc <- pwc %>% add_xy_position(x = "Diet")
-ggboxplot(data1, x = "Diet", y = "Gain",
-          color = "Diet", 
+pwc <- pwc %>% add_xy_position(x = "Species")
+ggboxplot(fsdata, x = "Species", y = "Sepal.Width",
+          color = "Species", 
           legend = "none", 
           add = "jitter") +
   stat_pvalue_manual(pwc, hide.ns = TRUE) 
