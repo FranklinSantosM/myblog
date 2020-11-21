@@ -21,9 +21,11 @@ organizations:
 bio: My research interests include plant and animal breeding and data science. 
 
 interests:
-- Plant Breeding
+- Plant and Animal Breeding
+- Mentoring
 - Data Science
-- Animal Breeding and Genetics
+- R programming
+- Knowledge sharing
 
 education:
   courses:
