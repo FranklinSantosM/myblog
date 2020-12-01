@@ -42,10 +42,15 @@ En el resto del post lo comentaremos desde un punto de vista más práctico y en
 ## Datos
 El dato que se utilizará es `iris`, que se encuentra en la base de datos de R. Estos datos como tratamientos tienen tres especies (`setosa`, `versicolor` y `virginica`) y cuatro variables (`Sepal.Length`, `Sepal.Width`, `Petal.Length` y `Petal.Width`) cuantitativas
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 #paquetes R a utilizar
 library(tidyverse)
 library(easyanova)
+library(car)
+library(lattice)
+library(multcomp)
+library(ggpubr)
+library(rstatix)
 ```
 
 La librería de `easyanova` es un paquete para realizar análisis de experimentos agrícolas y animales. Las funciones de esta librería son fáciles de usar. Realiza análisis en varios diseños, con datos balanceados y no balanceados.
@@ -109,7 +114,6 @@ par(mfrow = c(1, 2)) # combine plots
 hist(res_aov$residuals)
 
 # QQ-plot
-library(car)
 qqPlot(res_aov$residuals,
   id = FALSE # id = FALSE to remove point identification
 )
@@ -141,7 +145,6 @@ boxplot(Sepal.Width ~ Species,
 
 ```{r, echo=TRUE}
 # Dotplot
-library("lattice")
 
 dotplot(Sepal.Width ~ Species,
   data = iris
@@ -163,7 +166,6 @@ En R, la prueba de Levene se puede realizar gracias a la función `leveneTest()`
 
 ```{r, echo=TRUE}
 # Levene's test
-library(car)
 
 leveneTest(Sepal.Width ~ Species,
   data = iris
@@ -244,7 +246,7 @@ En nuestro caso, dado que no existe una especie de “referencia” y nos intere
 En R, la prueba de Tukey HSD se realiza de la siguiente manera. Aquí es donde el *segundo método* para realizar el ANVA resulta útil porque los resultados (`res_aov`) se reutilizan para la prueba de promedios:
 
 ```{r}
-library(multcomp)
+
 # Prueba de Tukey HSD:
 post_test <- glht(res_aov,
   linfct = mcp(Species = "Tukey")
@@ -296,7 +298,7 @@ Si está interesado en incluir resultados de ANVA y pruebas de promedio directam
 
 ```{r}
 #paquete para p-valor en la visualización de prueba de promedios
-library(ggpubr)
+
 dat <- iris
 # Editar desde aquí
 x <- which(names(dat) == "Species") #variable de agrupación
@@ -332,7 +334,7 @@ for (i in y) {
 Otra opción de gráfica para observar la significancia entre las medias de cada par de especies.
 ```{r}
 # pairwise comparisons
-library(rstatix)
+
 pwc <- fsdata %>%
   pairwise_t_test(
     Sepal.Width ~ Species, pool.sd = FALSE,

@@ -27,7 +27,7 @@ image:
 #   E.g. `projects = ["internal-project"]` references `content/project/deep-learning/index.md`.
 #   Otherwise, set `projects = []`.
 projects: []
-rmd_hash: b14fda81c5190925
+rmd_hash: 9066b6ed94dfba4d
 
 ---
 
@@ -53,19 +53,12 @@ El dato que se utilizará es `iris`, que se encuentra en la base de datos de R. 
 
 <pre class='chroma'><code class='language-r' data-lang='r'><span class='c'>#paquetes R a utilizar</span>
 <span class='kr'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='o'>(</span><span class='nv'><a href='http://tidyverse.tidyverse.org'>tidyverse</a></span><span class='o'>)</span>
-
-<span class='c'>#&gt; ── <span style='font-weight: bold;'>Attaching packages</span><span> ─────────────────────────────────────── tidyverse 1.3.0 ──</span></span>
-
-<span class='c'>#&gt; <span style='color: #00BB00;'>✔</span><span> </span><span style='color: #0000BB;'>ggplot2</span><span> 3.3.2     </span><span style='color: #00BB00;'>✔</span><span> </span><span style='color: #0000BB;'>purrr  </span><span> 0.3.4</span></span>
-<span class='c'>#&gt; <span style='color: #00BB00;'>✔</span><span> </span><span style='color: #0000BB;'>tibble </span><span> 3.0.4     </span><span style='color: #00BB00;'>✔</span><span> </span><span style='color: #0000BB;'>dplyr  </span><span> 1.0.2</span></span>
-<span class='c'>#&gt; <span style='color: #00BB00;'>✔</span><span> </span><span style='color: #0000BB;'>tidyr  </span><span> 1.1.2     </span><span style='color: #00BB00;'>✔</span><span> </span><span style='color: #0000BB;'>stringr</span><span> 1.4.0</span></span>
-<span class='c'>#&gt; <span style='color: #00BB00;'>✔</span><span> </span><span style='color: #0000BB;'>readr  </span><span> 1.3.1     </span><span style='color: #00BB00;'>✔</span><span> </span><span style='color: #0000BB;'>forcats</span><span> 0.5.0</span></span>
-
-<span class='c'>#&gt; ── <span style='font-weight: bold;'>Conflicts</span><span> ────────────────────────────────────────── tidyverse_conflicts() ──</span></span>
-<span class='c'>#&gt; <span style='color: #BB0000;'>✖</span><span> </span><span style='color: #0000BB;'>dplyr</span><span>::</span><span style='color: #00BB00;'>filter()</span><span> masks </span><span style='color: #0000BB;'>stats</span><span>::filter()</span></span>
-<span class='c'>#&gt; <span style='color: #BB0000;'>✖</span><span> </span><span style='color: #0000BB;'>dplyr</span><span>::</span><span style='color: #00BB00;'>lag()</span><span>    masks </span><span style='color: #0000BB;'>stats</span><span>::lag()</span></span>
-
 <span class='kr'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='o'>(</span><span class='nv'>easyanova</span><span class='o'>)</span>
+<span class='kr'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='o'>(</span><span class='nv'><a href='https://r-forge.r-project.org/projects/car/'>car</a></span><span class='o'>)</span>
+<span class='kr'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='o'>(</span><span class='nv'><a href='http://lattice.r-forge.r-project.org/'>lattice</a></span><span class='o'>)</span>
+<span class='kr'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='o'>(</span><span class='nv'><a href='http://multcomp.R-forge.R-project.org'>multcomp</a></span><span class='o'>)</span>
+<span class='kr'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='o'>(</span><span class='nv'><a href='https://rpkgs.datanovia.com/ggpubr/'>ggpubr</a></span><span class='o'>)</span>
+<span class='kr'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='o'>(</span><span class='nv'><a href='https://rpkgs.datanovia.com/rstatix/'>rstatix</a></span><span class='o'>)</span>
 </code></pre>
 
 </div>
@@ -77,7 +70,7 @@ Salida de datos a utilizar:
 <div class="highlight">
 
 <pre class='chroma'><code class='language-r' data-lang='r'><span class='c'>#datos</span>
-<span class='nf'>tibble</span><span class='o'>(</span><span class='nv'>iris</span><span class='o'>)</span>
+<span class='nf'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='o'>(</span><span class='nv'>iris</span><span class='o'>)</span>
 
 <span class='c'>#&gt; <span style='color: #555555;'># A tibble: 150 x 5</span></span>
 <span class='c'>#&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span>
@@ -159,21 +152,6 @@ Ahora podemos comprobar la normalidad visualmente:
 <span class='nf'><a href='https://rdrr.io/r/graphics/hist.html'>hist</a></span><span class='o'>(</span><span class='nv'>res_aov</span><span class='o'>$</span><span class='nv'>residuals</span><span class='o'>)</span>
 
 <span class='c'># QQ-plot</span>
-<span class='kr'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='o'>(</span><span class='nv'><a href='https://r-forge.r-project.org/projects/car/'>car</a></span><span class='o'>)</span>
-
-<span class='c'>#&gt; Loading required package: carData</span>
-
-<span class='c'>#&gt; </span>
-<span class='c'>#&gt; Attaching package: 'car'</span>
-
-<span class='c'>#&gt; The following object is masked from 'package:dplyr':</span>
-<span class='c'>#&gt; </span>
-<span class='c'>#&gt;     recode</span>
-
-<span class='c'>#&gt; The following object is masked from 'package:purrr':</span>
-<span class='c'>#&gt; </span>
-<span class='c'>#&gt;     some</span>
-
 <span class='nf'><a href='https://rdrr.io/pkg/car/man/qqPlot.html'>qqPlot</a></span><span class='o'>(</span><span class='nv'>res_aov</span><span class='o'>$</span><span class='nv'>residuals</span>,
   id <span class='o'>=</span> <span class='kc'>FALSE</span> <span class='c'># id = FALSE to remove point identification</span>
 <span class='o'>)</span>
@@ -215,7 +193,6 @@ Visualmente tenemos:
 <div class="highlight">
 
 <pre class='chroma'><code class='language-r' data-lang='r'><span class='c'># Dotplot</span>
-<span class='kr'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='o'>(</span><span class='s'><a href='http://lattice.r-forge.r-project.org/'>"lattice"</a></span><span class='o'>)</span>
 
 <span class='nf'><a href='https://rdrr.io/pkg/lattice/man/xyplot.html'>dotplot</a></span><span class='o'>(</span><span class='nv'>Sepal.Width</span> <span class='o'>~</span> <span class='nv'>Species</span>,
   data <span class='o'>=</span> <span class='nv'>iris</span>
@@ -242,7 +219,6 @@ En R, la prueba de Levene se puede realizar gracias a la función [`leveneTest()
 <div class="highlight">
 
 <pre class='chroma'><code class='language-r' data-lang='r'><span class='c'># Levene's test</span>
-<span class='kr'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='o'>(</span><span class='nv'><a href='https://r-forge.r-project.org/projects/car/'>car</a></span><span class='o'>)</span>
 
 <span class='nf'><a href='https://rdrr.io/pkg/car/man/leveneTest.html'>leveneTest</a></span><span class='o'>(</span><span class='nv'>Sepal.Width</span> <span class='o'>~</span> <span class='nv'>Species</span>,
   data <span class='o'>=</span> <span class='nv'>iris</span>
@@ -361,30 +337,7 @@ En R, la prueba de Tukey HSD se realiza de la siguiente manera. Aquí es donde e
 
 <div class="highlight">
 
-<pre class='chroma'><code class='language-r' data-lang='r'><span class='kr'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='o'>(</span><span class='nv'><a href='http://multcomp.R-forge.R-project.org'>multcomp</a></span><span class='o'>)</span>
-
-<span class='c'>#&gt; Loading required package: mvtnorm</span>
-
-<span class='c'>#&gt; Loading required package: survival</span>
-
-<span class='c'>#&gt; Loading required package: TH.data</span>
-
-<span class='c'>#&gt; Loading required package: MASS</span>
-
-<span class='c'>#&gt; </span>
-<span class='c'>#&gt; Attaching package: 'MASS'</span>
-
-<span class='c'>#&gt; The following object is masked from 'package:dplyr':</span>
-<span class='c'>#&gt; </span>
-<span class='c'>#&gt;     select</span>
-
-<span class='c'>#&gt; </span>
-<span class='c'>#&gt; Attaching package: 'TH.data'</span>
-
-<span class='c'>#&gt; The following object is masked from 'package:MASS':</span>
-<span class='c'>#&gt; </span>
-<span class='c'>#&gt;     geyser</span>
-
+<pre class='chroma'><code class='language-r' data-lang='r'>
 <span class='c'># Prueba de Tukey HSD:</span>
 <span class='nv'>post_test</span> <span class='o'>&lt;-</span> <span class='nf'><a href='https://rdrr.io/pkg/multcomp/man/glht.html'>glht</a></span><span class='o'>(</span><span class='nv'>res_aov</span>,
   linfct <span class='o'>=</span> <span class='nf'><a href='https://rdrr.io/pkg/multcomp/man/glht.html'>mcp</a></span><span class='o'>(</span>Species <span class='o'>=</span> <span class='s'>"Tukey"</span><span class='o'>)</span>
@@ -403,7 +356,7 @@ En R, la prueba de Tukey HSD se realiza de la siguiente manera. Aquí es donde e
 <span class='c'>#&gt;                             Estimate Std. Error t value Pr(&gt;|t|)    </span>
 <span class='c'>#&gt; versicolor - setosa == 0    -0.65800    0.06794  -9.685  &lt; 1e-04 ***</span>
 <span class='c'>#&gt; virginica - setosa == 0     -0.45400    0.06794  -6.683  &lt; 1e-04 ***</span>
-<span class='c'>#&gt; virginica - versicolor == 0  0.20400    0.06794   3.003  0.00881 ** </span>
+<span class='c'>#&gt; virginica - versicolor == 0  0.20400    0.06794   3.003  0.00875 ** </span>
 <span class='c'>#&gt; ---</span>
 <span class='c'>#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
 <span class='c'>#&gt; (Adjusted p values reported -- single-step method)</span>
@@ -456,7 +409,7 @@ Para proceder con ANVA los datos de `iris` se selecciona y ordena para dar uso c
 
 <pre class='chroma'><code class='language-r' data-lang='r'><span class='nv'>fsdata</span> <span class='o'>&lt;-</span> <span class='nv'>iris</span> <span class='o'>%&gt;%</span>
   <span class='nf'>dplyr</span><span class='nf'>::</span><span class='nf'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='o'>(</span><span class='nv'>Species</span>, <span class='nv'>Sepal.Width</span><span class='o'>)</span>
-<span class='nf'>tibble</span><span class='o'>(</span><span class='nv'>fsdata</span><span class='o'>)</span>
+<span class='nf'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='o'>(</span><span class='nv'>fsdata</span><span class='o'>)</span>
 
 <span class='c'>#&gt; <span style='color: #555555;'># A tibble: 150 x 2</span></span>
 <span class='c'>#&gt;    Species Sepal.Width</span>
@@ -609,7 +562,7 @@ Si está interesado en incluir resultados de ANVA y pruebas de promedio directam
 <div class="highlight">
 
 <pre class='chroma'><code class='language-r' data-lang='r'><span class='c'>#paquete para p-valor en la visualización de prueba de promedios</span>
-<span class='kr'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='o'>(</span><span class='nv'><a href='https://rpkgs.datanovia.com/ggpubr/'>ggpubr</a></span><span class='o'>)</span>
+
 <span class='nv'>dat</span> <span class='o'>&lt;-</span> <span class='nv'>iris</span>
 <span class='c'># Editar desde aquí</span>
 <span class='nv'>x</span> <span class='o'>&lt;-</span> <span class='nf'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='o'>(</span><span class='nf'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='o'>(</span><span class='nv'>dat</span><span class='o'>)</span> <span class='o'>==</span> <span class='s'>"Species"</span><span class='o'>)</span> <span class='c'>#variable de agrupación</span>
@@ -651,18 +604,6 @@ Otra opción de gráfica para observar la significancia entre las medias de cada
 <div class="highlight">
 
 <pre class='chroma'><code class='language-r' data-lang='r'><span class='c'># pairwise comparisons</span>
-<span class='kr'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='o'>(</span><span class='nv'><a href='https://rpkgs.datanovia.com/rstatix/'>rstatix</a></span><span class='o'>)</span>
-
-<span class='c'>#&gt; </span>
-<span class='c'>#&gt; Attaching package: 'rstatix'</span>
-
-<span class='c'>#&gt; The following object is masked from 'package:MASS':</span>
-<span class='c'>#&gt; </span>
-<span class='c'>#&gt;     select</span>
-
-<span class='c'>#&gt; The following object is masked from 'package:stats':</span>
-<span class='c'>#&gt; </span>
-<span class='c'>#&gt;     filter</span>
 
 <span class='nv'>pwc</span> <span class='o'>&lt;-</span> <span class='nv'>fsdata</span> <span class='o'>%&gt;%</span>
   <span class='nf'><a href='https://rpkgs.datanovia.com/rstatix/reference/t_test.html'>pairwise_t_test</a></span><span class='o'>(</span>
