@@ -29,6 +29,9 @@ interests:
 
 education:
   courses:
+  - course: Statistics with R
+    institution: Duke University
+    year: 2020
   - course: Animal Breeding and Genetics
     institution: Wageningen University & Research
     year: 2020
@@ -38,7 +41,7 @@ education:
   - course: Diplomado en Educación Superior
     institution: Universidad Pública de El Alto
     year: 2020
-  - course: Ing. Agrónomo
+  - course: Ingeniero Agrónomo
     institution: Universidad Pública de El Alto
     year: 2015
 
